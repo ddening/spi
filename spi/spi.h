@@ -92,9 +92,9 @@ typedef enum priority_t{
 
 /* Optional arguments for spi_write */
 typedef enum optional_t{
-	DEFAULT,		// Default behaviour. Pulls CS high if task finished.
-	CONTINUE_LOW,	// Keeps the CS line low after the transmission is done.
-	STORE_DATA		// Reserved for internal operations in spi_read (DO NOT USE WITH spi_write)
+	DEFAULT,        // Default behaviour. Pulls CS high if task finished.
+	CONTINUE_LOW,   // Keeps the CS line low after the transmission is done.
+	STORE_DATA      // Reserved for internal operations in spi_read (DO NOT USE WITH spi_write)
 } optional_t;
 
 /* Describes a slave device */
@@ -145,21 +145,21 @@ spi_error_t spi_init(data_order_t data_order, mode_t mode, clock_rate_t clock_ra
  * When the task is finished the CS line is pulled high again.
  * It's recommended to check the return value for a possible error.
 	
- * @param	slave			Transmit data to given slave.
- * @param	data			Array containing 8-bit datawords. The amount of datawords is limited (see <spi_buffer.h> DX_BUFFER_SIZE).
- * @param	number_of_bytes	Pass the amount of datawords that the array contains.
- *							Adding a wrong number of bytes can cause data loss when receiving 
- *							the data on another device.
- * @param	priority		Task priority. Higher priority tasks get executed earlier than lower priority tasks.
- * @param	opt				Optional argument to change behaviour. 
-							1.  DEFAULT			: Default behaviour. CS line gets pulled up (high) once the task is completed.
-							2.	CONTINUE_LOW	: Keeps the CS line low after the transmission is finished. 
-							2.1	Use case example: spi_write command followed by a spi_read command, which requires the
+ * @param	slave           Transmit data to given slave.
+ * @param	data            Array containing 8-bit datawords. The amount of datawords is limited (see <spi_buffer.h> DX_BUFFER_SIZE).
+ * @param	number_of_bytes Pass the amount of datawords that the array contains.
+ *                          Adding a wrong number of bytes can cause data loss when receiving 
+ *                          the data on another device.
+ * @param	priority        Task priority. Higher priority tasks get executed earlier than lower priority tasks.
+ * @param	opt             Optional argument to change behaviour. 
+                            1.  DEFAULT			: Default behaviour. CS line gets pulled up (high) once the task is completed.
+                            2.	CONTINUE_LOW	: Keeps the CS line low after the transmission is finished. 
+                            2.1	Use case example: spi_write command followed by a spi_read command, which requires the
 												  CS line to be held low during this entire process.
-							3.	STORE_DATA		: Reserved for internal operations in spi_read
- * @param	cb_func:		User defined callback function. Gets executed after a SPI task was completed.
- * @return					Returns an SPI error code if an operation fails. 
- *							Otherwise SPI_NO_ERROR (0) is returned.
+                            3.	STORE_DATA		: Reserved for internal operations in spi_read
+ * @param	cb_func:        User defined callback function. Gets executed after a SPI task was completed.
+ * @return                  Returns an SPI error code if an operation fails. 
+ *                          Otherwise SPI_NO_ERROR (0) is returned.
  */
 spi_error_t spi_write(slave_info* slave, uint8_t* data, uint8_t number_of_bytes, priority_t priority, optional_t opt, spi_callback cb_func);
 
