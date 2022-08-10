@@ -73,7 +73,7 @@ static void error_led(spi_error_t error) {
 
 spi_error_t error_handler(spi_error_t error) {
     switch (error) {
-    case SPI_NO_ERROR:										return SPI_NO_ERROR;					break;
+    case SPI_NO_ERROR:									    return SPI_NO_ERROR;					break;
     case SPI_ERR_BUFFER_OVERFLOW:       error_led(error);	return SPI_ERR_BUFFER_OVERFLOW;			break;
     case SPI_ERR_BUFFER_DATA_OVERWRITE: error_led(error);	return SPI_ERR_BUFFER_DATA_OVERWRITE;	break;
     case SPI_ERR_DATA_OVERFLOW:         error_led(error);	return SPI_ERR_DATA_OVERFLOW;			break;
