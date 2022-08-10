@@ -48,9 +48,9 @@
 * ERRORS
 *
 *   SPI_BUFFER_OVERFLOW:
-*		1.  More data written to the buffer than allowed.
+*       1.  More data written to the buffer than allowed.
 *           Change TX_BUFFER_SIZE in the <spi_buffer.h> if needed.
-*		2.  More bytes requested than the rx_buffer can store.
+*       2.  More bytes requested than the rx_buffer can store.
 *           Change RX_BUFFER_SIZE in the <spi_buffer.h> if needed.
 *
 *   SPI_BUFFER_DATA_OVERWRITE:
