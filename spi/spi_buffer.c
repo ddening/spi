@@ -1,14 +1,14 @@
 /*************************************************************************
-* Title		: spi_buffer.c
-* Author	: Dimitri Dening
-* Created	: 04.11.2021 15:54:29
-* Software	: Microchip Studio V7
-* Hardware	: Atmega1284P
+* Title     : spi_buffer.c
+* Author    : Dimitri Dening
+* Created   : 04.11.2021 15:54:29
+* Software  : Microchip Studio V7
+* Hardware  : Atmega1284P
         
 DESCRIPTION:
     SPI transmit and receive buffer.
 USAGE:
-	see <spi_buffer.h>
+    see <spi_buffer.h>
                
 *************************************************************************/
 /* General libraries */
