@@ -44,11 +44,11 @@
 @usage The following code shows typical usage of this library.
 
 @code
-	#include "spi.h"
+    #include "spi.h"
 	
-	void callback_function (void){ // Do stuff in callback function }
+    void callback_function (void){ // Do stuff in callback function }
 		
-	int main(void){
+    int main(void){
 		
         uint8_t tx_data[] = { 0x83, 0x00, 0x00, 0x00 };
 			
@@ -65,7 +65,7 @@
         free(rx_data);
 		
         for(;;);
-	}	
+    }	
 @endcode           
 */
 #ifndef SPI_H_
@@ -169,53 +169,53 @@ spi_error_t spi_write(slave_info* slave, uint8_t* data, uint8_t number_of_bytes,
  * Each dataword is stored in the RX_BUFFER. The receive command is initiated
  * by transmitting a start byte e.g. dummy packet (0x00).
  *
- * @param	slave			Receive data from given slave.
- * @param	recv			Data from the RX_BUFFER gets extracted and stored in this array.
- * @param	number_of_bytes	Determine how many bytes to read and store in the RX_BUFFER.
- * @param	start_byte		Start communication with given start byte.
- * @param	priority		Task priority. Higher priority tasks get executed earlier than lower priority tasks.
- * @param	cb_func:		User defined callback function. Gets executed when all packets got received.
- * @return					Returns an SPI error code if an operation fails.
- *							Otherwise SPI_NO_ERROR (0) is returned.
+ * @param   slave           Receive data from given slave.
+ * @param   recv            Data from the RX_BUFFER gets extracted and stored in this array.
+ * @param   number_of_bytes Determine how many bytes to read and store in the RX_BUFFER.
+ * @param   start_byte      Start communication with given start byte.
+ * @param   priority        Task priority. Higher priority tasks get executed earlier than lower priority tasks.
+ * @param   cb_func:        User defined callback function. Gets executed when all packets got received.
+ * @return                  Returns an SPI error code if an operation fails.
+ *                          Otherwise SPI_NO_ERROR (0) is returned.
  */
 spi_error_t spi_read(slave_info* slave, uint8_t* recv, uint8_t number_of_bytes, uint8_t start_byte, priority_t priority, spi_callback cb_func);
 
 /** 
- * @brief	Creates a new slave structure.
+ * @brief   Creates a new slave structure.
  * 
  * The user has to confirm a correct setup of the slave configuration. 
  * This function contains no error checking.
  * The new slave is configured as inactive.
  *
- * @return	Returns the new slave structure.
+ * @return   Returns the new slave structure.
  */
 slave_info spi_create_slave(uint8_t pin, uint8_t port, uint8_t ddr);
 
 /**
- * @brief	Gets the next byte (8-bit dataword) in the RX_BUFFER.
- * @param	data			Read data from the RX_BUFFER and store them in the given array.
- * @param	number_of_bytes	Receive n amount of bytes from the RX_BUFFER.
- * @return	None
+ * @brief   Gets the next byte (8-bit dataword) in the RX_BUFFER.
+ * @param   data            Read data from the RX_BUFFER and store them in the given array.
+ * @param   number_of_bytes Receive n amount of bytes from the RX_BUFFER.
+ * @return  None
  */
 void spi_get_byte(uint8_t* data, uint8_t len);
 
 /**
- * @brief	Flushes the TX_BUFFER and RX_BUFFER by resetting the pointers to 
- *			the next data packet and changes the buffer state to empty.
- * @return	Returns an SPI error code if an operation fails.
- *			Otherwise SPI_NO_ERROR (0) is returned.
+ * @brief   Flushes the TX_BUFFER and RX_BUFFER by resetting the pointers to 
+ *          the next data packet and changes the buffer state to empty.
+ * @return  Returns an SPI error code if an operation fails.
+ *          Otherwise SPI_NO_ERROR (0) is returned.
  */
 spi_error_t spi_flush_buffer(void);
 
 /**
- * @brief	Clears the remaining SPDR value from a previous session on a slave device.
+ * @brief   Clears the remaining SPDR value from a previous session on a slave device.
  *
  * On restart any old data is still stored in the SPDR and gets shifted on 
  * MISO channel to the Master device possibly causing a wrong data sequence. 
  * This is a simple workaround to clear the previous remaining value in the SPDR.
  *
- * @param	slave	Clear SPDR from given slave.
- * @return	None
+ * @param   slave   Clear SPDR from given slave.
+ * @return  None
  */
 void spi_clear(slave_info* slave);
 
