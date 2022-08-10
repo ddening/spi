@@ -63,9 +63,9 @@
 #	error "RX_Buffer must be a power of 2"
 #endif
  
-typedef void (*spi_callback)(void); // Forward declaration
+typedef void (*spi_callback)(void);   // forward declaration
 
-typedef struct slave_info slave_info;  // Forward declaration
+typedef struct slave_info slave_info; // forward declaration
 
 /* Describes a SPI task */
 typedef struct spt_t {
@@ -95,35 +95,35 @@ typedef struct spi_rx {
 } spi_rx;
 
 /**
- * @brief	Initializes the transmit and receive buffer for SPI transmits.
+ * @brief   Initializes the transmit and receive buffer for SPI transmits.
  *
- *			The tx_buffer contains a task list of limited size.
- *			The rx_buffer can receive a limited size of data.
- *			The created tx_buffer can be used to store new SPI tasks e.g. spi_create_task(buffer, ...)
+ *          The tx_buffer contains a task list of limited size.
+ *          The rx_buffer can receive a limited size of data.
+ *          The created tx_buffer can be used to store new SPI tasks e.g. spi_create_task(buffer, ...)
  *
- * @return	None
+ * @return  None
  */
 void spi_buffer_init(spi_tx* tx_buffer, spi_rx* rx_buffer);
 
 /** 
- * @brief	Create a new task to transmit via SPI.
+ * @brief   Create a new task to transmit via SPI.
  *
- *			This function is used by the <spi.h> file during the transmit operation.
- *			Unlike the spi_write() function, this function only stores a new task
- *			in the buffer, but does NOT initiate a transmit by writing the first
- *			dataword to the SPDR.
- *			A task can be linked to a specific buffer, if more than one buffer is used.
+ *          This function is used by the <spi.h> file during the transmit operation.
+ *          Unlike the spi_write() function, this function only stores a new task
+ *          in the buffer, but does NOT initiate a transmit by writing the first
+ *          dataword to the SPDR.
+ *          A task can be linked to a specific buffer, if more than one buffer is used.
  *
- * @param	buffer			Specifies the buffer that a task is linked to.	
- * @param	slave			Specifies a slave that a task is linked to.
- * @param	data			Array containing 8-bit datawords.
- * @param	number_of_bytes	You must pass the amount of datawords that the array contains.
- *							Adding a wrong number of bytes can cause data loss when receiving the data on another device.
- * @param	priority		Task priority. Higher priority tasks get executed earlier than lower priority tasks.
- * @param	opt				Optional argument to change task behaviour.
- * @param	spi_callback cb User defined callback function. Linked to a specific task.
- * @return					Returns an SPI error code if an operation fails.
- *							Otherwise SPI_NO_ERROR (0) is returned.
+ * @param   buffer          Specifies the buffer that a task is linked to.	
+ * @param   slave           Specifies a slave that a task is linked to.
+ * @param   data            Array containing 8-bit datawords.
+ * @param   number_of_bytes You must pass the amount of datawords that the array contains.
+ *                          Adding a wrong number of bytes can cause data loss when receiving the data on another device.
+ * @param   priority        Task priority. Higher priority tasks get executed earlier than lower priority tasks.
+ * @param   opt             Optional argument to change task behaviour.
+ * @param   spi_callback cb User defined callback function. Linked to a specific task.
+ * @return                  Returns an SPI error code if an operation fails.
+ *                          Otherwise SPI_NO_ERROR (0) is returned.
  */
 spi_error_t spi_create_task(spi_tx* buffer, slave_info* slave, uint8_t* data, uint8_t number_of_bytes, uint8_t priority, uint8_t opt, spi_callback cb);
 
