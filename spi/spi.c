@@ -4,13 +4,13 @@
 * Created   : 25.10.2021 17:56:24
 * Software  : Microchip Studio V7
 * Hardware  : Atmega1284P
-        
+		
 DESCRIPTION:
-    Single master implementation to communicate with spi devices using a ringbuffer.  
+	Single master implementation to communicate with spi devices using a ringbuffer.  
 USAGE:
-    see <spi.h>
+	see <spi.h>
 NOTES:
-	                   
+					   
 *************************************************************************/
 /* General libraries */
 #include <avr/interrupt.h>
@@ -61,12 +61,12 @@ spi_error_t spi_init(data_order_t data_order, mode_t mode, clock_rate_t clock_ra
 	
 	/* Set Clock Rate */
 	if (clock_rate == SPI_CLOCK_DIV2  || clock_rate == SPI_CLOCK_DIV8 ||
-        clock_rate == SPI_CLOCK_DIV32 || clock_rate == SPI_CLOCK_DIV64X) {
-            SPCR |= ((clock_rate - 0x04) << SPR0);
-            SPSR |= (1 << SPI2X);
+		clock_rate == SPI_CLOCK_DIV32 || clock_rate == SPI_CLOCK_DIV64X) {
+			SPCR |= ((clock_rate - 0x04) << SPR0);
+			SPSR |= (1 << SPI2X);
 	} else {
-            SPCR |= (clock_rate << SPR0);
-            SPSR &= ~(1 << SPI2X);
+			SPCR |= (clock_rate << SPR0);
+			SPSR &= ~(1 << SPI2X);
 	}
 	
 	SPI_STATE = SPI_INACTIVE;
@@ -89,7 +89,7 @@ void spi_get_byte(uint8_t* data, uint8_t len){
 	uint8_t tmphead;
 	
 	if (rx_buffer.rx_head == rx_buffer.rx_tail) {
-        // uart_put("spi buffer empty..."); return;
+		// uart_put("spi buffer empty..."); return;
 	}
 	
 	while (SPI_STATE == SPI_ACTIVE);
@@ -105,7 +105,7 @@ static void get_byte(data_t* data){
 	uint8_t tmphead;
 	
 	if (rx_buffer.rx_head == rx_buffer.rx_tail) {
-        // uart_put("spi buffer empty..."); return;
+		// uart_put("spi buffer empty..."); return;
 	}
 	
 	while (SPI_STATE == SPI_ACTIVE);
@@ -161,7 +161,7 @@ spi_error_t spi_write(slave_info* _slave, uint8_t* data, uint8_t number_of_bytes
 		
 		if (SPSR & (1 << WCOL)) return error_handler(SPI_ERR_WRITE_COLLISION);
 	} else {
-        // Do nothing.
+		// Do nothing.
 	}
 	
 	return SPI_NO_ERROR;
@@ -211,7 +211,7 @@ spi_error_t spi_read(slave_info* _slave, uint8_t* _recv, uint8_t number_of_bytes
 			return error_handler(SPI_ERR_WRITE_COLLISION);
 		}
 	} else {
-        // Do nothing.
+		// Do nothing.
 	}
 	
 	free(dummy_packet);
@@ -273,7 +273,7 @@ slave_info* tmpslave;
 ISR(SPI_STC_vect){
 	
 	// =================================================
-	//                      RECEIVE
+	//						RECEIVE
 	// =================================================
 	tmptail = rx_buffer.rx_tail & RX_BUFFER_MASK;
 
@@ -285,7 +285,7 @@ ISR(SPI_STC_vect){
 	}
 
 	// =================================================
-	//                      SEND
+	//						SEND
 	// =================================================	
 	if (tx_buffer.tx_head != tx_buffer.tx_tail){
 		
