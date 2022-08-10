@@ -273,7 +273,7 @@ slave_info* tmpslave;
 ISR(SPI_STC_vect){
     
     // =================================================
-    //						RECEIVE
+    //                      RECEIVE
     // =================================================
     tmptail = rx_buffer.rx_tail & RX_BUFFER_MASK;
 
@@ -285,7 +285,7 @@ ISR(SPI_STC_vect){
     }
 
     // =================================================
-    //						SEND
+    //                      SEND
     // =================================================	
     if (tx_buffer.tx_head != tx_buffer.tx_tail){
         
