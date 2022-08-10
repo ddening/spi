@@ -39,8 +39,8 @@ table_t error_table[] = {
     //           |                                             |											|
     //           |                                             |											|
     //-------------------------------------------------------------------------------------------------------------------------------
-    {   SPI_NO_ERROR					,   {												}	,	"SPI_NO_ERROR"					},
-    {   SPI_ERR_BUFFER_OVERFLOW         ,   { SHORT_PULSE ,   SHORT_PULSE   ,   SHORT_PULSE }   ,	"SPI_ERR_BUFFER_OVERFLOW"		},
+    {   SPI_NO_ERROR					,   {                                               }	,	"SPI_NO_ERROR"					},
+    {   SPI_ERR_BUFFER_OVERFLOW         ,   { SHORT_PULSE ,   SHORT_PULSE   ,   SHORT_PULSE }   ,	"SPI_ERR_BUFFER_OVERFLOW"       },
     {   SPI_ERR_BUFFER_DATA_OVERWRITE   ,   { SHORT_PULSE ,   SHORT_PULSE   ,   LONG_PULSE  }   ,	"SPI_ERR_BUFFER_DATA_OVERWRITE" },
     {   SPI_ERR_DATA_OVERFLOW           ,   { SHORT_PULSE ,   LONG_PULSE    ,   SHORT_PULSE }   ,	"SPI_ERR_DATA_OVERFLOW"			},
     {   SPI_ERR_INVALID_PORT            ,   { SHORT_PULSE ,   LONG_PULSE    ,   LONG_PULSE  }   ,	"SPI_ERR_INVALID_PORT"			},
