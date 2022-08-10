@@ -73,14 +73,14 @@ static void error_led(spi_error_t error) {
 
 spi_error_t error_handler(spi_error_t error) {
     switch (error) {
-    case SPI_NO_ERROR:					return SPI_NO_ERROR;					break;
-    case SPI_ERR_BUFFER_OVERFLOW: error_led(error); return SPI_ERR_BUFFER_OVERFLOW;			break;
+    case SPI_NO_ERROR:					                  return SPI_NO_ERROR;					break;
+    case SPI_ERR_BUFFER_OVERFLOW:       error_led(error); return SPI_ERR_BUFFER_OVERFLOW;		break;
     case SPI_ERR_BUFFER_DATA_OVERWRITE: error_led(error); return SPI_ERR_BUFFER_DATA_OVERWRITE;	break;
-    case SPI_ERR_DATA_OVERFLOW: error_led(error); return SPI_ERR_DATA_OVERFLOW;			break;
-    case SPI_ERR_INVALID_PORT: error_led(error); return SPI_ERR_INVALID_PORT;			break;
-    case SPI_ERR_WRITE_COLLISION: error_led(error); return SPI_ERR_WRITE_COLLISION;			break;
-    case SPI_ERR_FLUSH_FAILED: error_led(error); return SPI_ERR_FLUSH_FAILED;			break;
-    case SPI_ERR_RECV_BUSY: error_led(error); return SPI_ERR_RECV_BUSY;				break;
-    default: error_led(error);	return SPI_ERR_NOT_DEFINED;
+    case SPI_ERR_DATA_OVERFLOW:         error_led(error); return SPI_ERR_DATA_OVERFLOW;			break;
+    case SPI_ERR_INVALID_PORT:          error_led(error); return SPI_ERR_INVALID_PORT;			break;
+    case SPI_ERR_WRITE_COLLISION:       error_led(error); return SPI_ERR_WRITE_COLLISION;		break;
+    case SPI_ERR_FLUSH_FAILED:          error_led(error); return SPI_ERR_FLUSH_FAILED;			break;
+    case SPI_ERR_RECV_BUSY:             error_led(error); return SPI_ERR_RECV_BUSY;				break;
+    default:                            error_led(error); return SPI_ERR_NOT_DEFINED;
     }
 }
