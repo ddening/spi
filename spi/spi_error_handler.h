@@ -102,15 +102,15 @@ an effect on other peripherals used at the same time, which are not depended on 
 
 /* Describes possible error states */
 typedef enum spi_error_t {
-	SPI_NO_ERROR,
-	SPI_ERR_BUFFER_OVERFLOW,
-	SPI_ERR_BUFFER_DATA_OVERWRITE,
-	SPI_ERR_DATA_OVERFLOW,
-	SPI_ERR_INVALID_PORT,
-	SPI_ERR_WRITE_COLLISION,
-	SPI_ERR_FLUSH_FAILED,
-	SPI_ERR_RECV_BUSY,
-	SPI_ERR_NOT_DEFINED
+    SPI_NO_ERROR,
+    SPI_ERR_BUFFER_OVERFLOW,
+    SPI_ERR_BUFFER_DATA_OVERWRITE,
+    SPI_ERR_DATA_OVERFLOW,
+    SPI_ERR_INVALID_PORT,
+    SPI_ERR_WRITE_COLLISION,
+    SPI_ERR_FLUSH_FAILED,
+    SPI_ERR_RECV_BUSY,
+    SPI_ERR_NOT_DEFINED
 } spi_error_t;
 
 /**

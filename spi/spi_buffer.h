@@ -69,29 +69,29 @@ typedef struct slave_info slave_info; // forward declaration
 
 /* Describes a SPI task */
 typedef struct spt_t {
-	uint8_t* data;
-	uint8_t data_head;
-	uint8_t data_tail;
-	uint8_t priority;
-	uint8_t opt;
-	slave_info* slave;
-	spi_callback callback;
+    uint8_t* data;
+    uint8_t data_head;
+    uint8_t data_tail;
+    uint8_t priority;
+    uint8_t opt;
+    slave_info* slave;
+    spi_callback callback;
 } spt_t;
 
 /* Describes the SPI TX Buffer */
 typedef struct spi_tx {
-	spt_t task_list[TX_BUFFER_SIZE];
-	uint8_t tx_head;
-	uint8_t tx_tail;
-	uint8_t is_empty;
+    spt_t task_list[TX_BUFFER_SIZE];
+    uint8_t tx_head;
+    uint8_t tx_tail;
+    uint8_t is_empty;
 } spi_tx;
 
 /* Describes the SPI RX Buffer */
 typedef struct spi_rx {
-	uint8_t data[RX_BUFFER_SIZE];
-	uint8_t number_of_bytes_requested;
-	uint8_t rx_head;
-	uint8_t rx_tail;
+    uint8_t data[RX_BUFFER_SIZE];
+    uint8_t number_of_bytes_requested;
+    uint8_t rx_head;
+    uint8_t rx_tail;
 } spi_rx;
 
 /**
