@@ -9,23 +9,23 @@
 *
 *       Copyright (C) 2021 Dimitri Dening
 *
-*	    Permission is hereby granted, free of charge, to any person obtaining a copy
-*	    of this software and associated documentation files (the "Software"), to deal
-*		in the Software without restriction, including without limitation the rights
-*		to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-*		copies of the Software, and to permit persons to whom the Software is
-*		furnished to do so, subject to the following conditions:
+*       Permission is hereby granted, free of charge, to any person obtaining a copy
+*       of this software and associated documentation files (the "Software"), to deal
+*       in the Software without restriction, including without limitation the rights
+*       to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+*       copies of the Software, and to permit persons to whom the Software is
+*       furnished to do so, subject to the following conditions:
 *
-*		The above copyright notice and this permission notice shall be included in all
-*		copies or substantial portions of the Software.
+*       The above copyright notice and this permission notice shall be included in all
+*       copies or substantial portions of the Software.
 *
-*		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-*		IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-*		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-*		AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-*		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-*		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-*		SOFTWARE.
+*       THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+*       IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+*       FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+*       AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+*       LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+*       OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+*       SOFTWARE.
 *
 *************************************************************************/
 
@@ -38,7 +38,7 @@
 @note Modify the <spi_io.h> port declaration if using another MCU.
 @bug The greater the physical distance from PIN4 of a slave device on the STK600, the greater the likelihood of failed transmission packets at higher speeds.
      e.g. : Device connected to PIN4 and PIN3 is able to operate at 8Mhz with SPI_CLOCK_DIV4 and lower.
-			PIN0 to PIN2 are only able to operate at 8Mhz with SPI_CLOCK_DIV8 and lower.
+            PIN0 to PIN2 are only able to operate at 8Mhz with SPI_CLOCK_DIV8 and lower.
 @note Connect the error led (see <led_lib.h>) on the STK600 to monitor possible error codes. 
 	  Occuring errors are described in <spi_error_handler.h>			
 @usage The following code shows typical usage of this library.
@@ -50,21 +50,21 @@
 		
 	int main(void){
 		
-		uint8_t tx_data[] = { 0x83, 0x00, 0x00, 0x00 };
+        uint8_t tx_data[] = { 0x83, 0x00, 0x00, 0x00 };
 			
-		uint8_t* rx_data = (uint8_t*)malloc(sizeof(uint8_t) * 4);
+        uint8_t* rx_data = (uint8_t*)malloc(sizeof(uint8_t) * 4);
 		
-		slave_info slave_device = spi_create_slave(PINB4, PORTB4, DDB4);
+        slave_info slave_device = spi_create_slave(PINB4, PORTB4, DDB4);
 		
-		spi_init(SPI_MSB, SPI_MODE0, SPI_CLOCK_DIV4);
+        spi_init(SPI_MSB, SPI_MODE0, SPI_CLOCK_DIV4);
 		
-		spi_write(&slave_device, tx_data, 4, NORMAL, DEFAULT, &callback_function);
+        spi_write(&slave_device, tx_data, 4, NORMAL, DEFAULT, &callback_function);
 		
-		spi_read(&slave_device, rx_data, 4, 0x00, NORMAL, &callback_function); 
+        spi_read(&slave_device, rx_data, 4, 0x00, NORMAL, &callback_function); 
 		
-		free(rx_data);
+        free(rx_data);
 		
-		for(;;);
+        for(;;);
 	}	
 @endcode           
 */
