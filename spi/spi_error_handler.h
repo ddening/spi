@@ -41,7 +41,7 @@
 *	----------------------------|---------------------
 *	SPI_FLUSH_FAILED            | LONG , SHORT, LONG
 *	----------------------------|---------------------
-*	SPI_RECV_BUSY				| LONG , LONG , SHORT
+*	SPI_RECV_BUSY               | LONG , LONG , SHORT
 *	----------------------------|---------------------
 *	SPI_NOT_DEFINED             | LONG , LONG , LONG
 *	
