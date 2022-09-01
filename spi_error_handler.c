@@ -16,10 +16,17 @@ NOTES:
 
 /* User defined libraries */
 #include "spi_error_handler.h"
-#include "led_lib.h"
-#include "uart.h"
 
-#define LED_DEBUG_OUTPUT 1
+#define LED_DEBUG_OUTPUT  0
+#define UART_DEBUG_OUTPUT 1
+
+#if UART_DEBUG_OUTPUT
+    #include "../uart/uart.h"
+#endif
+
+#if LED_DEBUG_OUTPUT
+    #include "../utility/led_lib.h"
+#endif
 
 #define SHORT_PULSE 1	// 1s
 #define LONG_PULSE  3	// 3s
@@ -56,7 +63,10 @@ static void delay(int t) {
 
 static void error_led(spi_error_t error) {
 
+#if UART_DEBUG_OUTPUT
     uart_put("%s %s (%d)", "[spi error]:", error_table[error].error_string, error);
+
+#endif
 
 #if LED_DEBUG_OUTPUT
     for (int loop = 0; loop < REPEAT; loop++) {
