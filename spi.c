@@ -71,10 +71,6 @@ spi_error_t spi_init(data_order_t data_order, mode_t mode, clock_rate_t clock_ra
 
 static spi_error_t spi_enable_device(device_t* _device){
     
-    if (_device->port == SPI_SCK || _device->port == SPI_MOSI || _device->port == SPI_MISO) {
-        return SPI_ERR_INVALID_PORT;
-    }
-
     if (_device->port == device->port) return SPI_NO_ERROR;
     
     device = _device;
@@ -89,9 +85,34 @@ static spi_error_t spi_enable_device(device_t* _device){
     return SPI_NO_ERROR;
 }
 
-static spi_error_t _spi(void) {
+device_t* spi_create_device(uint8_t pin, uint8_t port, uint8_t ddr){
     
-    spi_error_t err;
+    if (port == SPI_SCK || port == SPI_MOSI || port == SPI_MISO) {
+        return NULL;
+    }
+    
+    device_t* device = (device_t*) malloc(sizeof(device_t));
+    
+    device->pin = pin;
+    device->port = port;
+    device->ddr = ddr;
+    
+    SPI_PORT |= (1 << port); // Pull up := inactive
+    SPI_DDR  |= (1 << ddr);  // @Output
+    
+    return device;
+}
+
+spi_error_t spi_free_device(device_t* _device){
+    
+    free(_device);
+    
+    device = NULL;
+    
+    return SPI_NO_ERROR;
+}
+
+static spi_error_t _spi(void) {
        
     /* If the SPI is not active right now, it is save to transmit the next dataword from the queue. */
     if (SPI_STATE == SPI_INACTIVE) {
@@ -100,13 +121,13 @@ static spi_error_t _spi(void) {
         
         payload = queue_dequeue(queue);
         
-        err = spi_enable_device(payload->spi->device);
-        
-        if (err != SPI_NO_ERROR) {
+        if (payload->spi->device == NULL) {
             free(payload->spi);
             free(payload);
-            return err;
+            return SPI_ERR_INVALID_PORT;
         }
+        
+        spi_enable_device(payload->spi->device);
         
         payload->spi->number_of_bytes--;
         
@@ -173,29 +194,6 @@ spi_error_t spi_read_write(payload_t* payload_write, payload_t* payload_read, ui
     return SPI_NO_ERROR;
 }
 
-device_t* spi_create_device(uint8_t pin, uint8_t port, uint8_t ddr){
-    
-    device_t* device = (device_t*) malloc(sizeof(device_t));
-    
-    device->pin = pin;
-    device->port = port;
-    device->ddr = ddr;
-    
-    SPI_PORT |= (1 << port); // Pull up := inactive
-    SPI_DDR  |= (1 << ddr);  // @Output
-    
-    return device;
-}
-
-spi_error_t spi_free_device(device_t* _device){
-     
-    free(_device);  
-    
-    device = NULL;
-    
-    return SPI_NO_ERROR;
-}
-
 spi_error_t spi_flush(queue_t* _queue){
     
     if (SPI_STATE == SPI_ACTIVE) return error_handler(SPI_ERR_FLUSH_FAILED);
@@ -206,9 +204,7 @@ spi_error_t spi_flush(queue_t* _queue){
 }
 
 ISR(SPI_STC_vect){
-         
-    spi_error_t err;     
-             
+                         
     if (payload->spi->container != NULL && payload->spi->mode == READ) {
         *(payload->spi->container) = SPDR;   
         (payload->spi->container)++;   
@@ -256,14 +252,8 @@ ISR(SPI_STC_vect){
                      
             payload = queue_dequeue(queue);
             
-            err = spi_enable_device(payload->spi->device);
-            
-            if (err != SPI_NO_ERROR) {
-                free(payload->spi);
-                free(payload);
-                return error_handler(err);
-            }
-            
+            spi_enable_device(payload->spi->device);
+                       
             payload->spi->number_of_bytes--;           
             
             SPI_PORT &= ~(1 << device->port);  /* Pull down := active */
