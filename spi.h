@@ -75,6 +75,7 @@
 
 /* User defined libraries */
 #include "spi_io.h"
+#include "spi_config.h"
 #include "spi_buffer.h"
 #include "spi_error_handler.h"
 #include "../queue/queue.h"
@@ -86,38 +87,13 @@ typedef struct device_t {
     uint8_t ddr;
 } device_t;
 
-typedef enum {
-    SPI_MSB = 0x00,
-    SPI_LSB = 0x01
-} data_order_t;
-
-typedef enum mode_t {
-    SPI_MODE0 = 0x00, // CPOL = 0, CPHA = 0
-    SPI_MODE1 = 0x01, // CPOL = 0, CPHA = 1
-    SPI_MODE2 = 0x02, // CPOL = 1, CPHA = 0
-    SPI_MODE3 = 0x03  // CPOL = 1, CPHA = 1
-} mode_t;
-
-typedef enum {
-    SPI_CLOCK_DIV4 = 0x00,
-    SPI_CLOCK_DIV16 = 0x01,
-    SPI_CLOCK_DIV64 = 0x02,
-    SPI_CLOCK_DIV128 = 0x03,
-    // The following clock settings will set the SPI2X bit in the SPSR.
-    // The SCK frequency will be doubled when the SPI is in master mode.
-    SPI_CLOCK_DIV2 = 0x04,
-    SPI_CLOCK_DIV8 = 0x05,
-    SPI_CLOCK_DIV32 = 0x06,
-    SPI_CLOCK_DIV64X = 0x07
-} clock_rate_t;
-
 /**
  * @brief   Initializes the SPI as master.
  * @param   Check the definitions above for the entire valid argument list.
  * @return  Returns an SPI error code if an operation fails.
  *          Otherwise SPI_NO_ERROR (0) is returned.
  */
-spi_error_t spi_init(data_order_t data_order, mode_t mode, clock_rate_t clock_rate);
+spi_error_t spi_init();
 
 device_t* spi_create_device(uint8_t pin, uint8_t port, uint8_t ddr);
 

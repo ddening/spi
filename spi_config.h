@@ -33,14 +33,14 @@ typedef enum {
 } clock_rate_t;
 
 typedef struct spi_config_t {
+    data_order_t data_order;
     mode_t mode;
-    data_order_t data_order;   
-    clock_rate_t clockrate; 
+    clock_rate_t clockrate;
 } spi_config_t;
 
-spi_config_t test = {
-    .mode       = SPI_MODE0,
+static spi_config_t spi_config = {
     .data_order = SPI_MSB,
+    .mode       = SPI_MODE0,
     .clockrate  = SPI_CLOCK_DIV2
 };
 

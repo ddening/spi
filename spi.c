@@ -34,7 +34,7 @@ static device_t* device = NULL;
 
 static uint8_t dump;
     
-spi_error_t spi_init(data_order_t data_order, mode_t mode, clock_rate_t clock_rate){
+spi_error_t spi_init(){
     
     /* Set MOSI and SCK output, all others input */
     SPI_DDR = (1 << SPI_SCK) | (1 << SPI_MOSI);
@@ -48,17 +48,25 @@ spi_error_t spi_init(data_order_t data_order, mode_t mode, clock_rate_t clock_ra
     device = spi_create_device(PINB4, PORTB4, DDB4);
     
     /* Enable SPI Interrupt Flag, SPI, Data Order, Master Mode, SPI Mode */	
-    SPCR = (1 << SPIE) | (1 << SPE) | (data_order << DORD) | (1 << MSTR) | (mode << CPHA);
+    SPCR = (1 << SPIE) | (1 << SPE) | (spi_config.data_order << DORD) | (1 << MSTR) | (spi_config.mode << CPHA);
     
     /* Set Clock Rate */
-    if (clock_rate == SPI_CLOCK_DIV2  || clock_rate == SPI_CLOCK_DIV8 ||
-        clock_rate == SPI_CLOCK_DIV32 || clock_rate == SPI_CLOCK_DIV64X) {
-            SPCR |= ((clock_rate - 0x04) << SPR0);
-            SPSR |= (1 << SPI2X);
-    } else {
-            SPCR |= (clock_rate << SPR0);
+    switch (spi_config.clockrate){
+        case SPI_CLOCK_DIV4:
+        case SPI_CLOCK_DIV16:
+        case SPI_CLOCK_DIV64:
+        case SPI_CLOCK_DIV128:
+            SPCR |= (spi_config.clockrate << SPR0);
             SPSR &= ~(1 << SPI2X);
-    }
+            break;
+        case SPI_CLOCK_DIV2:
+        case SPI_CLOCK_DIV8:
+        case SPI_CLOCK_DIV32:
+        case SPI_CLOCK_DIV64X:
+            SPCR |= ((spi_config.clockrate - 0x04) << SPR0);
+            SPSR |= (1 << SPI2X);
+            break;
+     }
     
     SPI_STATE = SPI_INACTIVE;
     
