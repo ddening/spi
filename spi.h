@@ -42,26 +42,25 @@
 
 @code
     #include "spi.h"
-
-    void callback_function (void){ // Do stuff in callback function }
+	
+	const uint8_t flash_send[] = { 0x04, 0x01, 0x02 };
 
     int main(void){
-
-        uint8_t tx_data[] = { 0x83, 0x00, 0x00, 0x00 };
-
-        uint8_t* rx_data = (uint8_t*)malloc(sizeof(uint8_t) * 4);
-
-        slave_info slave_device = spi_create_slave(PINB4, PORTB4, DDB4);
-
-        spi_init(SPI_MSB, SPI_MODE0, SPI_CLOCK_DIV4);
-
-        spi_write(&slave_device, tx_data, 4, NORMAL, DEFAULT, &callback_function);
-
-        spi_read(&slave_device, rx_data, 4, 0x00, NORMAL, &callback_function);
-
-        free(rx_data);
-
-        for(;;);
+		
+		sei();
+		
+		spi_init();
+    
+		device_t* spi_device = spi_create_device(PINB4, PORTB4, DDB4);
+    
+		uint8_t* container = (uint8_t*)malloc(sizeof(uint8_t) * ARRAY_LEN(flash_send)); 
+    
+		payload_t* payload1 = payload_create_spi(PRIORITY_LOW, spi_device, flash_send, ARRAY_LEN(flash_send), NULL);
+		payload_t* payload2 = payload_create_spi(PRIORITY_LOW, spi_device, flash_send, ARRAY_LEN(flash_send), NULL);
+      
+		spi_error_t err = spi_read_write(payload1, payload2, container);
+ 
+		for(;;);
     }
 @endcode
 */
