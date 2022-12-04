@@ -75,7 +75,6 @@
 /* User defined libraries */
 #include "spi_io.h"
 #include "spi_config.h"
-#include "spi_buffer.h"
 #include "spi_error_handler.h"
 #include "../queue/queue.h"
 
