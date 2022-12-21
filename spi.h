@@ -76,7 +76,7 @@
 #include "spi_io.h"
 #include "spi_config.h"
 #include "spi_error_handler.h"
-#include "../queue/queue.h"
+#include "../ringbuffer/ringbuffer.h"
 
 /* Describes a spi device */
 typedef struct device_t {
@@ -91,7 +91,7 @@ typedef struct device_t {
  * @return  Returns an SPI error code if an operation fails.
  *          Otherwise SPI_NO_ERROR (0) is returned.
  */
-spi_error_t spi_init();
+spi_error_t spi_init(spi_config_t*);
 
 device_t* spi_create_device(uint8_t pin, uint8_t port, uint8_t ddr);
 

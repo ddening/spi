@@ -26,6 +26,8 @@ typedef enum {
 
 static SPI_STATE_T SPI_STATE;
 
+static queue_t q;
+
 static queue_t* queue = NULL;
 
 static payload_t* payload = NULL;
@@ -34,7 +36,7 @@ static device_t* device = NULL;
 
 static uint8_t dump;
     
-spi_error_t spi_init(){
+spi_error_t spi_init(spi_config_t* config){
     
     /* Set MOSI and SCK output, all others input */
     SPI_DDR = (1 << SPI_SCK) | (1 << SPI_MOSI);
@@ -48,29 +50,29 @@ spi_error_t spi_init(){
     device = spi_create_device(PINB4, PORTB4, DDB4);
     
     /* Enable SPI Interrupt Flag, SPI, Data Order, Master Mode, SPI Mode */	
-    SPCR = (1 << SPIE) | (1 << SPE) | (spi_config.data_order << DORD) | (1 << MSTR) | (spi_config.mode << CPHA);
+    SPCR = (1 << SPIE) | (1 << SPE) | (config->data_order << DORD) | (1 << MSTR) | (config->mode << CPHA);
     
     /* Set Clock Rate */
-    switch (spi_config.clockrate){
+    switch (config->clockrate){
         case SPI_CLOCK_DIV4:
         case SPI_CLOCK_DIV16:
         case SPI_CLOCK_DIV64:
         case SPI_CLOCK_DIV128:
-            SPCR |= (spi_config.clockrate << SPR0);
+            SPCR |= (config->clockrate << SPR0);
             SPSR &= ~(1 << SPI2X);
             break;
         case SPI_CLOCK_DIV2:
         case SPI_CLOCK_DIV8:
         case SPI_CLOCK_DIV32:
         case SPI_CLOCK_DIV64X:
-            SPCR |= ((spi_config.clockrate - 0x04) << SPR0);
+            SPCR |= ((config->clockrate - 0x04) << SPR0);
             SPSR |= (1 << SPI2X);
             break;
      }
     
     SPI_STATE = SPI_INACTIVE;
     
-    queue = queue_new();
+    queue = queue_init(&q);
 
     // sei(); // global interrupt enable
     
