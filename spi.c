@@ -131,19 +131,18 @@ static spi_error_t _spi(void) {
         
         payload = queue_dequeue(queue);
         
-        if (payload->spi->device == NULL) {
-            free(payload->spi);
+        if (payload->protocol.spi.device == NULL) {
             free(payload);
             return SPI_ERR_INVALID_PORT;
         }
         
-        spi_enable_device(payload->spi->device);
+        spi_enable_device(payload->protocol.spi.device);
         
-        payload->spi->number_of_bytes--;
+        payload->protocol.spi.number_of_bytes--;
         
         SPI_PORT &= ~(1 << device->port);  /* Pull down := active */
         
-        SPDR = *(payload->spi->data);
+        SPDR = *(payload->protocol.spi.data);
     }
     
     return SPI_NO_ERROR;
@@ -153,7 +152,7 @@ spi_error_t spi_write(payload_t* _payload){
         
     spi_error_t err;
        
-    _payload->spi->mode = WRITE;
+    _payload->protocol.spi.mode = WRITE;
     
     err = queue_enqueue(queue, _payload);
     
@@ -170,8 +169,8 @@ spi_error_t spi_read(payload_t* _payload, uint8_t* container){
     
     spi_error_t err;
     
-    _payload->spi->mode = READ;
-    _payload->spi->container = container;
+    _payload->protocol.spi.mode = READ;
+    _payload->protocol.spi.container = container;
     
     err = queue_enqueue(queue, _payload);
     
@@ -188,9 +187,9 @@ spi_error_t spi_read_write(payload_t* payload_write, payload_t* payload_read, ui
     
     spi_error_t err;
     
-    payload_write->spi->mode = READ_WRITE;
-    payload_read->spi->mode  = READ;
-    payload_read->spi->container = container;
+    payload_write->protocol.spi.mode = READ_WRITE;
+    payload_read->protocol.spi.mode  = READ;
+    payload_read->protocol.spi.container = container;
        
     err = queue_enqueue(queue, payload_write);
     err = queue_enqueue(queue, payload_read);
@@ -215,60 +214,58 @@ spi_error_t spi_flush(queue_t* _queue){
 
 ISR(SPI_STC_vect){
                          
-    if (payload->spi->container != NULL && payload->spi->mode == READ) {
-        *(payload->spi->container) = SPDR;   
-        (payload->spi->container)++;   
+    if (payload->protocol.spi.container != NULL && payload->protocol.spi.mode == READ) {
+        *(payload->protocol.spi.container) = SPDR;   
+        (payload->protocol.spi.container)++;   
     } 
     else {
         dump = SPDR;
     }
 
-    (payload->spi->data)++;       
+    (payload->protocol.spi.data)++;       
  
-    if (payload->spi->number_of_bytes != 0){
+    if (payload->protocol.spi.number_of_bytes != 0){
                
-        payload->spi->number_of_bytes--;
+        payload->protocol.spi.number_of_bytes--;
         
-        SPDR = *(payload->spi->data); 
+        SPDR = *(payload->protocol.spi.data); 
     } 
     else {
         
         // Task finished
         
-        if (payload->spi->callback != NULL) {
-            payload->spi->callback();
-            payload->spi->callback = NULL;
+        if (payload->protocol.spi.callback != NULL) {
+            payload->protocol.spi.callback();
+            payload->protocol.spi.callback = NULL;
         }
               
         if (queue_empty(queue)) {       
             SPI_STATE = SPI_INACTIVE;           
             SPI_PORT |= (1 << device->port); // Pull up := inactive
-            free(payload->spi);
             free(payload);
         } 
         else {
             
             // Load next task
             
-            if (payload->spi->mode == READ_WRITE) {
+            if (payload->protocol.spi.mode == READ_WRITE) {
                 // Do nothing.
             } 
             else {
                 SPI_PORT |= (1 << device->port); // Pull up := inactive
             }
             
-            free(payload->spi);
             free(payload);
                      
             payload = queue_dequeue(queue);
             
-            spi_enable_device(payload->spi->device);
+            spi_enable_device(payload->protocol.spi.device);
                        
-            payload->spi->number_of_bytes--;           
+            payload->protocol.spi.number_of_bytes--;           
             
             SPI_PORT &= ~(1 << device->port);  /* Pull down := active */
             
-            SPDR = *(payload->spi->data);
+            SPDR = *(payload->protocol.spi.data);
         }
     }
 }
