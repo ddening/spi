@@ -19,6 +19,11 @@ NOTES:
 /* User defined libraries */
 #include "spi.h"
 
+#define SPI_ENABLE() (SPCR = (1 << SPE))
+#define SPI_DISABLE() (SPCR &= ~(1 << SPE))
+#define SPI_ISR_ENABLE() (SPCR = (1 << SPIE))
+#define SPI_ISR_DISABLE() (SPCR &= ~(1 << SPIE))
+
 typedef enum {
     SPI_ACTIVE,
     SPI_INACTIVE
@@ -37,7 +42,7 @@ static device_t* device = NULL;
 static uint8_t dump;
     
 spi_error_t spi_init(spi_config_t* config){
-    
+        
     /* Set MOSI and SCK output, all others input */
     SPI_DDR = (1 << SPI_SCK) | (1 << SPI_MOSI);
     
@@ -126,9 +131,7 @@ static spi_error_t _spi(void) {
        
     /* If the SPI is not active right now, it is save to transmit the next dataword from the queue. */
     if (SPI_STATE == SPI_INACTIVE) {
-        
-        SPI_STATE = SPI_ACTIVE;
-        
+              
         payload = queue_dequeue(queue);
         
         if (payload->protocol.spi.device == NULL) {
@@ -139,6 +142,10 @@ static spi_error_t _spi(void) {
         spi_enable_device(payload->protocol.spi.device);
         
         payload->protocol.spi.number_of_bytes--;
+        
+        SPI_STATE = SPI_ACTIVE;
+        
+        SPI_ISR_ENABLE();
         
         SPI_PORT &= ~(1 << device->port);  /* Pull down := active */
         
@@ -239,10 +246,11 @@ ISR(SPI_STC_vect){
             payload->protocol.spi.callback = NULL;
         }
               
-        if (queue_empty(queue)) {       
-            SPI_STATE = SPI_INACTIVE;           
-            SPI_PORT |= (1 << device->port); // Pull up := inactive
-            free(payload);
+        if (queue_empty(queue)) {   
+            free(payload);                     
+            SPI_PORT |= (1 << device->port); // Pull up := inactive   
+            SPI_STATE = SPI_INACTIVE;      
+            SPI_ISR_DISABLE();
         } 
         else {
             
