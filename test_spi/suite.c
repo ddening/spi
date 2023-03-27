@@ -36,7 +36,6 @@
 #include <stdio.h>
 #include "suite.h"
 #include "uart.h"
-#include "led_lib.h"
 
 static void test_report_failure(const struct test_case* test, const char* stage, int result) {
 	uart_put("%s '%s' %s %d", "Test", test->name, "failed:", result);

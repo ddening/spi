@@ -56,14 +56,20 @@
 #define F_CPU 8000000UL
 #endif
 	
+static device_t* spi_device;
+
 static uint8_t data_buffer_write[]	= { 0x84, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05 };
 static uint8_t data_flash_write[]	= { 0x83, 0x00, 0x00, 0x00 };
 static uint8_t data_flash_read[]	= { 0xd2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 static uint8_t data_sent[]			= { 0x01, 0x02, 0x03, 0x04, 0x05 };
 static uint8_t dummy[]              = { 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-static device_t* spi_device;
-	
+/* CALLBACK FLAGS */
+bool memory_return_success = 0;
+
+/* CALLBACK FUNCTIONS */
+void callback_memory_leak(void) { memory_return_success = 1; };
+      
 static int flash_read_data(device_t* device, uint8_t* container) {
 
 	bool ret = 0;
@@ -194,11 +200,7 @@ static int run_spi_transfer_test(const struct test_case* test) {
 	
 	return TEST_PASS;
 }
-
-bool memory_return_success = 0;
-
-void callback_memory_leak(void) { memory_return_success = 1; };
-    
+   
 static int run_spi_memory_leak_test(const struct test_case* test) {
     
     bool ret = 0;

@@ -40,7 +40,7 @@ static payload_t* payload = NULL;
 static device_t* device = NULL;
 
 static uint8_t dump;
-    
+  
 spi_error_t spi_init(spi_config_t* config){
         
     /* Set MOSI and SCK output, all others input */
@@ -52,7 +52,7 @@ spi_error_t spi_init(spi_config_t* config){
     device = (device_t*) malloc(sizeof(device_t));
     
     /* This is the default device configured on PORTB4 */
-    device = spi_create_device(PINB4, PORTB4, DDB4);
+    device = spi_create_device(4, 4, 4);
     
     /* Enable SPI Interrupt Flag, SPI, Data Order, Master Mode, SPI Mode */	
     SPCR = (1 << SPIE) | (1 << SPE) | (config->data_order << DORD) | (1 << MSTR) | (config->mode << CPHA);
