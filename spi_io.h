@@ -58,10 +58,10 @@ Extend this file according to the datasheet of your MCU.
 #	define SPI_PORT		PORTB
 #	define SPI_DDR		DDRB
 # elif defined(__AVR_ATmega2560__)
-#	define SPI_SCK		PORTB1
-#	define SPI_MOSI		PORTB2
-#	define SPI_MISO		PORTB3
-#	define SPI_SS		PORTB0
+#	define SPI_SCK		PB1
+#	define SPI_MOSI		PB2
+#	define SPI_MISO		PB3
+#	define SPI_SS		PB0
 #	define SPI_PORT		PORTB
 #	define SPI_DDR		DDRB
 #else
