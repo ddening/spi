@@ -76,7 +76,7 @@
 #include "spi_io.h"
 #include "spi_config.h"
 #include "spi_error_handler.h"
-#include "../ringbuffer/ringbuffer.h"
+#include "ringbuffer.h"
 
 /* Describes a spi device */
 typedef struct device_t {

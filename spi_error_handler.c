@@ -21,11 +21,11 @@ NOTES:
 #define UART_DEBUG_OUTPUT 1
 
 #if UART_DEBUG_OUTPUT
-    #include "../uart/uart.h"
+    #include "uart.h"
 #endif
 
 #if LED_DEBUG_OUTPUT
-    #include "../utility/led_lib.h"
+    #include "led_lib.h"
 #endif
 
 #define SHORT_PULSE 1	// 1s
