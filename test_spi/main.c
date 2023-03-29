@@ -53,7 +53,7 @@
 
 /* Define CPU frequency in Hz here if not defined in Makefile */
 #ifndef F_CPU
-#define F_CPU 8000000UL
+#define F_CPU 10000000UL
 #endif
 	
 static device_t* spi_device;
@@ -246,8 +246,7 @@ static int run_spi_memory_leak_test(const struct test_case* test) {
     
     return TEST_PASS;
 }
-
-    
+     
 int main(void) {
     
 	cli();		
@@ -260,7 +259,7 @@ int main(void) {
 	
 	sei();
 	
-	spi_device = spi_create_device(PINB4, PB4, DDB4);
+	spi_device = spi_create_device(PB0, PB0, PB0);
     	
 	DEFINE_TEST_CASE(data_flash_read_test, NULL, run_spi_flash_read_test, NULL, "SPI data flash read test");
 	DEFINE_TEST_CASE(data_transfer_test, NULL, run_spi_transfer_test, NULL, "SPI data transfer test");
@@ -268,9 +267,9 @@ int main(void) {
 
 	/* Put test case addresses in an array */
 	DEFINE_TEST_ARRAY(spi_tests) = {
-		// &data_flash_read_test,
-		&data_transfer_test,
-        &memory_leak_test
+		&data_flash_read_test,
+		//&data_transfer_test,
+        //&memory_leak_test
 	};
     	
 	/* Define the test suite */
@@ -278,6 +277,6 @@ int main(void) {
     
 	/* Run all tests in the test suite */
 	test_suite_run(&spi_suite);
-	
+    
 	while (1) { /* Busy-wait forever. */ }
 }
