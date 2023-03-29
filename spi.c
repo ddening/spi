@@ -48,12 +48,7 @@ spi_error_t spi_init(spi_config_t* config){
     
     /* Make sure the MISO pin is input */
     SPI_DDR &= ~(1 << SPI_MISO);
-    
-    device = (device_t*) malloc(sizeof(device_t));
-    
-    /* This is the default device configured on PORTB4 */
-    device = spi_create_device(SPI_SS, SPI_SS, SPI_SS);
-    
+       
     /* Enable SPI Interrupt Flag, SPI, Data Order, Master Mode, SPI Mode */	
     SPCR = (1 << SPIE) | (1 << SPE) | (config->data_order << DORD) | (1 << MSTR) | (config->mode << CPHA);
     
