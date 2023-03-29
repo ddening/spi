@@ -205,7 +205,7 @@ static int run_spi_memory_leak_test(const struct test_case* test) {
     
     bool ret = 0;
     
-    int number_of_tasks = 10000; // <-- increase value to provoke possible memory leak
+    int number_of_tasks = 30000; // <-- increase value to provoke possible memory leak
     
     uint8_t* container = (uint8_t*)malloc(sizeof(uint8_t) * ARRAY_LEN(dummy));
     
@@ -238,8 +238,6 @@ static int run_spi_memory_leak_test(const struct test_case* test) {
         
         memory_return_success = 0;
         
-        // free(container);
-		// free(payload);
     }
     
     free(container);
@@ -268,8 +266,8 @@ int main(void) {
 	/* Put test case addresses in an array */
 	DEFINE_TEST_ARRAY(spi_tests) = {
 		&data_flash_read_test,
-		//&data_transfer_test,
-        //&memory_leak_test
+		&data_transfer_test,
+        &memory_leak_test
 	};
     	
 	/* Define the test suite */
