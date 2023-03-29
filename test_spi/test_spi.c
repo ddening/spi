@@ -46,6 +46,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#include "test_spi.h"
 #include "suite.h"
 #include "spi.h"
 #include "uart.h"
@@ -257,7 +258,7 @@ int main(void) {
 	
 	sei();
 	
-	spi_device = spi_create_device(PB0, PB0, PB0);
+	spi_device = spi_create_device(SPI_TEST_PORT, SPI_TEST_PORT, SPI_TEST_PORT);
     	
 	DEFINE_TEST_CASE(data_flash_read_test, NULL, run_spi_flash_read_test, NULL, "SPI data flash read test");
 	DEFINE_TEST_CASE(data_transfer_test, NULL, run_spi_transfer_test, NULL, "SPI data transfer test");

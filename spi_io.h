@@ -66,7 +66,7 @@ Extend this file according to the datasheet of your MCU.
 #	define SPI_DDR		DDRB
 #else
 #  if !defined(__COMPILING_AVR_LIBC__)
-#    warning "device type not defined in <spi_io.h>"
+#    warning "Microcontroller not defined in <spi_io.h>"
 #  endif
 #endif
 
