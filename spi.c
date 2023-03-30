@@ -40,7 +40,7 @@ static payload_t* payload = NULL;
 static device_t* device = NULL;
 
 static uint8_t dump;
-    
+  
 spi_error_t spi_init(spi_config_t* config){
         
     /* Set MOSI and SCK output, all others input */
@@ -48,12 +48,7 @@ spi_error_t spi_init(spi_config_t* config){
     
     /* Make sure the MISO pin is input */
     SPI_DDR &= ~(1 << SPI_MISO);
-    
-    device = (device_t*) malloc(sizeof(device_t));
-    
-    /* This is the default device configured on PORTB4 */
-    device = spi_create_device(PINB4, PORTB4, DDB4);
-    
+       
     /* Enable SPI Interrupt Flag, SPI, Data Order, Master Mode, SPI Mode */	
     SPCR = (1 << SPIE) | (1 << SPE) | (config->data_order << DORD) | (1 << MSTR) | (config->mode << CPHA);
     
@@ -114,7 +109,7 @@ device_t* spi_create_device(uint8_t pin, uint8_t port, uint8_t ddr){
     
     SPI_PORT |= (1 << port); // Pull up := inactive
     SPI_DDR  |= (1 << ddr);  // @Output
-    
+        
     return device;
 }
 
@@ -144,9 +139,7 @@ static spi_error_t _spi(void) {
         payload->protocol.spi.number_of_bytes--;
         
         SPI_STATE = SPI_ACTIVE;
-        
-        SPI_ISR_ENABLE();
-        
+              
         SPI_PORT &= ~(1 << device->port);  /* Pull down := active */
         
         SPDR = *(payload->protocol.spi.data);
@@ -250,7 +243,6 @@ ISR(SPI_STC_vect){
             free(payload);                     
             SPI_PORT |= (1 << device->port); // Pull up := inactive   
             SPI_STATE = SPI_INACTIVE;      
-            SPI_ISR_DISABLE();
         } 
         else {
             

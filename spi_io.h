@@ -57,9 +57,16 @@ Extend this file according to the datasheet of your MCU.
 #	define SPI_SS		PORTB4
 #	define SPI_PORT		PORTB
 #	define SPI_DDR		DDRB
+# elif defined(__AVR_ATmega2560__)
+#	define SPI_SCK		PB1
+#	define SPI_MOSI		PB2
+#	define SPI_MISO		PB3
+#	define SPI_SS		PB0
+#	define SPI_PORT		PORTB
+#	define SPI_DDR		DDRB
 #else
 #  if !defined(__COMPILING_AVR_LIBC__)
-#    warning "ATmega1284P or ATmega16 not found"
+#    warning "Microcontroller not defined in <spi_io.h>"
 #  endif
 #endif
 
