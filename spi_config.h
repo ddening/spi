@@ -46,16 +46,14 @@ typedef enum mode_t {
 } mode_t;
 
 typedef enum {
-    SPI_CLOCK_DIV4 = 0x00,
-    SPI_CLOCK_DIV16 = 0x01,
-    SPI_CLOCK_DIV64 = 0x02,
-    SPI_CLOCK_DIV128 = 0x03,
-    // The following clock settings will set the SPI2X bit in the SPSR.
-    // The SCK frequency will be doubled when the SPI is in master mode.
     SPI_CLOCK_DIV2 = 0x04,
+    SPI_CLOCK_DIV4 = 0x00,
     SPI_CLOCK_DIV8 = 0x05,
+    SPI_CLOCK_DIV16 = 0x01,
     SPI_CLOCK_DIV32 = 0x06,
-    SPI_CLOCK_DIV64X = 0x07
+    SPI_CLOCK_DIV64 = 0x02,
+    SPI_CLOCK_DIV64X = 0x07,
+    SPI_CLOCK_DIV128 = 0x03
 } clock_rate_t;
 
 typedef struct spi_config_t {

@@ -130,7 +130,7 @@ static spi_error_t _spi(void) {
         payload = queue_dequeue(queue);
         
         if (payload->protocol.spi.device == NULL) {
-            free(payload);
+            payload_free_spi(payload);
             return SPI_ERR_INVALID_PORT;
         }
         
@@ -240,7 +240,7 @@ ISR(SPI_STC_vect){
         }
               
         if (queue_empty(queue)) {   
-            free(payload);                     
+            payload_free_spi(payload);                    
             SPI_PORT |= (1 << device->port); // Pull up := inactive   
             SPI_STATE = SPI_INACTIVE;      
         } 
@@ -255,7 +255,7 @@ ISR(SPI_STC_vect){
                 SPI_PORT |= (1 << device->port); // Pull up := inactive
             }
             
-            free(payload);
+            payload_free_spi(payload);
                      
             payload = queue_dequeue(queue);
             

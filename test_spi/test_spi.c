@@ -219,7 +219,7 @@ static int run_spi_memory_leak_test(const struct test_case* test) {
     
     for (int i = 0; i < number_of_tasks; i++) {
               
-        payload = payload_create_spi(PRIORITY_LOW, spi_device, dummy, ARRAY_LEN(dummy), callback_memory_leak);
+        payload = payload_create_spi(PRIORITY_LOW, spi_device, dummy, ARRAY_LEN(dummy), &callback_memory_leak);
             
         if (payload == NULL) {
             free(container);
