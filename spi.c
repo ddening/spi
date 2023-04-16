@@ -155,8 +155,8 @@ spi_error_t spi_write(payload_t* _payload){
     _payload->protocol.spi.mode = WRITE;
     
     err = queue_enqueue(queue, _payload);
-    
-    if (err != SPI_NO_ERROR) return error_handler(SPI_ERR_NOT_DEFINED);
+       
+    if (err != SPI_NO_ERROR) return error_handler(SPI_ERR_BUFFER_OVERFLOW);
     
     err = _spi();
     
@@ -174,7 +174,7 @@ spi_error_t spi_read(payload_t* _payload, uint8_t* container){
     
     err = queue_enqueue(queue, _payload);
     
-    if (err != SPI_NO_ERROR) return error_handler(SPI_ERR_NOT_DEFINED);
+    if (err != SPI_NO_ERROR) return error_handler(SPI_ERR_BUFFER_OVERFLOW);
     
     err = _spi();
     
@@ -194,7 +194,7 @@ spi_error_t spi_read_write(payload_t* payload_write, payload_t* payload_read, ui
     err = queue_enqueue(queue, payload_write);
     err = queue_enqueue(queue, payload_read);
     
-    if (err != SPI_NO_ERROR) return error_handler(SPI_ERR_NOT_DEFINED);
+    if (err != SPI_NO_ERROR) return error_handler(SPI_ERR_BUFFER_OVERFLOW);
     
     err = _spi();
     
