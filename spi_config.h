@@ -64,7 +64,7 @@ typedef struct spi_config_t {
 
 static spi_config_t spi_config = {
     .data_order = SPI_MSB,
-    .mode = SPI_MODE0,
+    .mode = SPI_MODE3,
     .clockrate = SPI_CLOCK_DIV2
 };
 
