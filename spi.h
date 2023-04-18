@@ -85,12 +85,6 @@ typedef struct device_t {
     uint8_t ddr;
 } device_t;
 
-/**
- * @brief   Initializes the SPI as master.
- * @param   Check the definitions above for the entire valid argument list.
- * @return  Returns an SPI error code if an operation fails.
- *          Otherwise SPI_NO_ERROR (0) is returned.
- */
 spi_error_t spi_init(spi_config_t*);
 
 device_t* spi_create_device(uint8_t pin, uint8_t port, uint8_t ddr);
