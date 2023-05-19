@@ -99,6 +99,6 @@ spi_error_t spi_read_write(payload_t*, payload_t*, uint8_t*);
 
 spi_error_t spi_flush(queue_t*);
 
-extern payload_t* payload_create_i2c(priority_t priority, device_t* device, uint8_t* data, uint8_t number_of_bytes, callback_fn callback);
+extern payload_t* payload_create_spi(priority_t priority, device_t* device, uint8_t* data, uint8_t number_of_bytes, callback_fn callback);
 
 #endif /* SPI_H_ */
