@@ -13,4 +13,6 @@
 #  endif
 #endif
 
+void test_spi(void);
+
 #endif /* TEST_SPI_H_ */
