@@ -235,7 +235,7 @@ ISR(SPI_STC_vect){
         // Task finished
         
         if (payload->protocol.spi.callback != NULL) {
-            payload->protocol.spi.callback();
+            payload->protocol.spi.callback(NULL);
             payload->protocol.spi.callback = NULL;
         }
               
