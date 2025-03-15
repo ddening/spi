@@ -65,11 +65,11 @@ static uint8_t data_flash_read[]	= { 0xd2, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0
 static uint8_t data_sent[]			= { 0x01, 0x02, 0x03, 0x04, 0x05 };
 static uint8_t dummy[]              = { 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-/* CALLBACK FLAGS */
-bool memory_return_success = 0;
+/* Callback Flags */
+static bool memory_return_success = 0;
 
-/* CALLBACK FUNCTIONS */
-void callback_memory_leak(void) { memory_return_success = 1; };
+/* Callback Functions */
+static void callback_memory_leak(void) { memory_return_success = 1; };
       
 static int flash_read_data(device_t* device, uint8_t* container) {
 
@@ -246,7 +246,7 @@ static int run_spi_memory_leak_test(const struct test_case* test) {
     return TEST_PASS;
 }
      
-int main(void) {
+void test_spi(void) {
     
 	cli();		
 	
@@ -275,7 +275,5 @@ int main(void) {
 	DEFINE_TEST_SUITE(spi_suite, spi_tests, "SPI driver test suite");
     
 	/* Run all tests in the test suite */
-	test_suite_run(&spi_suite);
-    
-	while (1) { /* Busy-wait forever. */ }
+	test_spi_suite_run(&spi_suite);
 }
