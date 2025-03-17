@@ -1,11 +1,32 @@
-# atmega-spi
- 
- This SPI library is compatible with the ATmega1284P. It should be compatible with other microcontrollers from AVR by defining the ports in ```spi_io.h```  according to the datasheet. The implemenation is interrupt based and uses a buffered transmission/receiving state.
- 
- ### Hardware
- The library was designed and tested using the ATmega1284P to transmit and receive data via an RFM95 LoRa Module at 8MHz and 10MHz. 
- 
- #### Using other microcontrollers
+# SPI Library for AVR Microcontrollers
+
+*A high-performance SPI (Serial Peripheral Interface) driver for AVR microcontrollers.*
+
+## Overview
+This library provides an efficient SPI communication interface for AVR microcontrollers, supporting master configuration. It is designed for fast and reliable data transmission with minimal CPU overhead.
+
+## Features
+- Supports Master mode
+- Configurable clock speed, polarity, and phase
+- Interrupt-driven operation
+- Multi-device support using Chip Select (CS)
+- Compatible with various AVR microcontrollers
+
+## Dependencies
+This library may require additional AVR utilities. Check out the related repository:
+[libAVR - Required Dependencies](https://github.com/ddening/libAVR)
+
+## Installation
+Clone this repository and include the necessary files in your project:
+```sh
+$ git clone https://github.com/ddening/spi.git
+```
+Include the header in your code:
+```c
+#include "spi.h"
+```
+
+ ## Usage with other microcontrollers
  To use other microcontrollers the ```spi_io.h``` has to be extended according to the datasheet of the microcontroller.
  In this example the ports are defined for the ATmega1284P and ATmega16. Both share the same port layout.
  
@@ -24,3 +45,6 @@
 #  endif
 #endif
 ```
+
+## 📝 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
